@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-class FC(nn.Module):
+class FullyConnected(nn.Module):
     def __init__(self, in_channels, out_channels, activation='relu', batch_norm=False):
         self.dense = nn.Linear(in_channels, out_channels)
         self.activation = activation
