@@ -9,10 +9,6 @@ from sklearn.model_selection import KFold
 
 from dataclasses import dataclass
 
-@dataclass
-class MNISTDataModuleConfig:
-    pass
-
 # in the future I want to implement Cross Fold Validation in a way that we can easily 
 class MNISTDataModule(pl.LightningDataModule):
     def __init__(self, data_dir:str="./", batch_size=32, normalize=True, seed=1999, k=1, folds=5):
