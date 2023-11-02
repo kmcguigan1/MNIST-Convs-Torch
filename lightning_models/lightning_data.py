@@ -11,7 +11,7 @@ from torchvision import transforms
 
 # in the future I want to implement Cross Fold Validation in a way that we can easily 
 class MNISTDataModule(pl.LightningDataModule):
-    def __init__(self, data_dir:str="./", batch_size=64, normalize=True, rotation_degrees=0, gaussian_blur=(3,0.2), seed=1999):
+    def __init__(self, data_dir:str="./", batch_size=128, normalize=True, rotation_degrees=0, gaussian_blur=(3,0.2), seed=1999):
         # setup the experiment
         super().__init__()
         # save the info we need

@@ -71,7 +71,7 @@ class ResidConvLayer(nn.Module):
         # check if we need to pad with zero channels
         if(self.out_channels > self.in_channels):
             shape = inputs.shape
-            padding = torch.zeros(size=(shape[0], self.out_channels - self.in_channels, shape[2], shape[3]), device=DEVICE)
+            padding = torch.zeros(size=(shape[0], self.out_channels - self.in_channels, shape[2], shape[3]), device=inputs.device)
             inputs = torch.concat((inputs, padding), axis=1)
         return inputs
     

@@ -64,6 +64,42 @@ class LilyModel(nn.Module):
         return x
 
 
+class ResdiualModel(nn.Module):
+    def __init__(self, n_filters, n_nodes, n_conv_layers, n_dense_layers, dropout_frac):
+        super().__init__()
+        self.conv_layers = nn.ModuleList([
+            ResidConvLayer(1, n_filters) if idx == 0 else ResidConvLayer(n_filters, n_filters) for idx in range(n_conv_layers)
+        ])
+        
+        self.output_pool = nn.AdaptiveAvgPool2d(output_size=(1, 1))
+        self.output_dropout = nn.Dropout(dropout_frac)
+
+        self.dense_layers = nn.ModuleList([
+            FullyConnectedLayer(n_filters, n_nodes, drop_frac=dropout_frac) if idx == 0 else FullyConnectedLayer(n_nodes, n_nodes, drop_frac=dropout_frac) for idx in range(n_dense_layers)
+        ])
+
+        self.proj = nn.Linear(n_nodes, 10)
+        self.softmax = nn.Softmax(dim=1)
+
+    def forward(self, x):
+        for block in self.conv_layers:
+            x = block(x)
+
+        x = self.output_pool(x)
+        x = x.squeeze()
+        x = self.output_dropout(x)
+
+        for block in self.dense_layers:
+            x = block(x)
+
+        x = self.proj(x)
+        x = self.softmax(x)
+        return x
+
+
+
+
+
 class ResidualConvolutionalModel(nn.Module):
     def __init__(
         self, num_blocks=3, layers_per_block:int=2,
