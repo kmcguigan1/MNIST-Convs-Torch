@@ -2,7 +2,7 @@ from lightning_trainer import LightningTrainerModule
 from lightning_data import MNISTDataModule
 from lightning_utils import get_trainer
 
-from model import ResdiualModel
+from model import LilyModel
 
 import optuna
 from optuna.trial import TrialState
